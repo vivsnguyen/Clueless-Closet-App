@@ -38,8 +38,18 @@ class WardrobeApp:
         self.root.title(WINDOW_TITLE)
         self.root.geometry(f'{WINDOW_WIDTH}x{WINDOW_HEIGHT}')
 
+        #add all buttons
+        self.create_buttons()
+
         #add clothing
         self.tops_frame.pack(fill=tk.BOTH, expand=tk.YES)
+
+    def create_buttons(self):
+        top_prev_button = tk.Button(self.tops_frame, text="Prev")
+        top_prev_button.pack(side=tk.LEFT)
+
+        top_next_button = tk.Button(self.tops_frame, text="Next")
+        top_next_button.pack(side=tk.LEFT)
 
     def create_photo(self, image_path, frame):
         image_file = Image.open(image_path)
