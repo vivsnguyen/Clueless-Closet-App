@@ -46,10 +46,10 @@ class WardrobeApp:
         self.tops_frame.pack(fill=tk.BOTH, expand=tk.YES)
 
     def create_buttons(self):
-        top_prev_button = tk.Button(self.tops_frame, text="Prev", command=self.get_next_top)
+        top_prev_button = tk.Button(self.tops_frame, text="Prev", command=self.get_prev_top)
         top_prev_button.pack(side=tk.LEFT)
 
-        top_next_button = tk.Button(self.tops_frame, text="Next", command=self.get_prev_top)
+        top_next_button = tk.Button(self.tops_frame, text="Next", command=self.get_next_top)
         top_next_button.pack(side=tk.LEFT)
         
 
@@ -74,13 +74,13 @@ class WardrobeApp:
         #reset and update image based on next_image path
         if current_item in self.top_images:
             image_label = self.top_image_label
-            self.tops_image_path = next_image
+            self.top_image_path = next_image
 
         #use update func to change image
         self.update_image(next_image, image_label)
     
     def get_next_top(self):
-        self._get_next_item(self.top_image_path, self.top_images)
+        self._get_next_item(self.top_image_path, self.top_images, increment=True)
 
     def get_prev_top(self):
         self._get_next_item(self.top_image_path, self.top_images, increment=False)
