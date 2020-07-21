@@ -12,6 +12,7 @@ IMG_HEIGHT = 250
 
 #store all Tops into a file and skip hidden files
 ALL_TOPS = [str('tops/') + imagefile for imagefile in os.listdir('tops/') if not imagefile.startswith('.')]
+print(ALL_TOPS)
 
 class WardrobeApp:
     def __init__(self, root):
@@ -45,12 +46,56 @@ class WardrobeApp:
         self.tops_frame.pack(fill=tk.BOTH, expand=tk.YES)
 
     def create_buttons(self):
-        top_prev_button = tk.Button(self.tops_frame, text="Prev")
+        top_prev_button = tk.Button(self.tops_frame, text="Prev", command=self.get_next_top)
         top_prev_button.pack(side=tk.LEFT)
 
-        top_next_button = tk.Button(self.tops_frame, text="Next")
+        top_next_button = tk.Button(self.tops_frame, text="Next", command=self.get_prev_top)
         top_next_button.pack(side=tk.LEFT)
+        
 
+    def _get_next_item(self, current_item, category, increment = True):
+        #function to move front and back using buttons
+        item_index = category.index(current_item)
+        final_index = len(category)-1
+        next_index = 0
+
+        #increment and at the end of the list
+        if increment and item_index==final_index:
+            next_index = 0
+        #decrement and at the beginning of the list
+        elif not increment and item_index==0:
+            next_index = final_index
+        else:
+            incrementor = 1 if increment else -1
+            next_index = item_index + incrementor
+
+        next_image = category[next_index]
+
+        #reset and update image based on next_image path
+        if current_item in self.top_images:
+            image_label = self.top_image_label
+            self.tops_image_path = next_image
+
+        #use update func to change image
+        self.update_image(next_image, image_label)
+    
+    def get_next_top(self):
+        self._get_next_item(self.top_image_path, self.top_images)
+
+    def get_prev_top(self):
+        self._get_next_item(self.top_image_path, self.top_images, increment=False)
+
+    def update_image(self, new_image_path, image_label):
+        #collect and change image into tk photo obj
+        image_file = Image.open(new_image_path)
+        image_resized = image_file.resize((IMG_WIDTH, IMG_HEIGHT), Image.ANTIALIAS)
+        tk_photo = ImageTk.PhotoImage(image_resized)
+
+        #update label
+        image_label.configure(image=tk_photo)
+
+        image_label.image = tk_photo
+        
     def create_photo(self, image_path, frame):
         image_file = Image.open(image_path)
         image_resized = image_file.resize((IMG_WIDTH, IMG_HEIGHT), Image.ANTIALIAS)
