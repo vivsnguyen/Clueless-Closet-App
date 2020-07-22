@@ -12,24 +12,30 @@ IMG_HEIGHT = 250
 
 #store all Tops into a file and skip hidden files
 ALL_TOPS = [str('tops/') + imagefile for imagefile in os.listdir('tops/') if not imagefile.startswith('.')]
-print(ALL_TOPS)
+ALL_BOTTOMS = [str('bottoms/') + imagefile for imagefile in os.listdir('bottoms/') if not imagefile.startswith('.')]
 
 class WardrobeApp:
     def __init__(self, root):
         self.root = root
 
-        #show top image in the window
+        #show top/bottom image in the window
         self.top_images = ALL_TOPS
+        self.bottom_images = ALL_BOTTOMS
 
-        #save single top - image filepath
+        #save single top & bottom - image filepath
         self.top_image_path = self.top_images[0]
+        self.bottom_image_path = self.bottom_images[0]
         
         #create and add top image into Frame
         self.tops_frame = tk.Frame(self.root)
         self.top_image_label = self.create_photo(self.top_image_path, self.tops_frame)
 
+        self.bottoms_frame = tk.Frame(self.root)
+        self.bottom_image_label = self.create_photo(self.bottom_image_path, self.bottoms_frame)
+
         #add top to pack
         self.top_image_label.pack(side=tk.TOP)
+        self.bottom_image_label.pack(side=tk.TOP)
         
         self.create_background()
 
@@ -44,13 +50,20 @@ class WardrobeApp:
 
         #add clothing
         self.tops_frame.pack(fill=tk.BOTH, expand=tk.YES)
+        self.bottoms_frame.pack(fill=tk.BOTH, expand=tk.YES)
 
     def create_buttons(self):
         top_prev_button = tk.Button(self.tops_frame, text="Prev", command=self.get_prev_top)
         top_prev_button.pack(side=tk.LEFT)
 
         top_next_button = tk.Button(self.tops_frame, text="Next", command=self.get_next_top)
-        top_next_button.pack(side=tk.LEFT)
+        top_next_button.pack(side=tk.RIGHT)
+
+        bottom_prev_button = tk.Button(self.bottoms_frame, text="Prev", command=self.get_prev_bottom)
+        bottom_prev_button.pack(side=tk.LEFT)
+
+        bottom_next_button = tk.Button(self.bottoms_frame, text="Next", command=self.get_next_bottom)
+        bottom_next_button.pack(side=tk.RIGHT)
         
 
     def _get_next_item(self, current_item, category, increment = True):
@@ -84,6 +97,12 @@ class WardrobeApp:
 
     def get_prev_top(self):
         self._get_next_item(self.top_image_path, self.top_images, increment=False)
+
+    def get_next_bottom(self):
+        self._get_next_item(self.bottom_image_path, self.boRIGHT_images, increment=True)
+
+    def get_prev_bottom(self):
+        self._get_next_item(self.bottom_image_path, self.boRIGHT_images, increment=False)
 
     def update_image(self, new_image_path, image_label):
         #collect and change image into tk photo obj
