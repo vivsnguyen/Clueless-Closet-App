@@ -1,4 +1,5 @@
 import os
+import random
 
 import tkinter as tk
 from PIL import Image, ImageTk
@@ -9,6 +10,7 @@ WINDOW_HEIGHT = 220
 WINDOW_WIDTH = 500
 IMG_WIDTH = 250
 IMG_HEIGHT = 250
+SOUND_EFFECT_FILE_PATH = ""
 
 #store all Tops into a file and skip hidden files
 ALL_TOPS = [str('tops/') + imagefile for imagefile in os.listdir('tops/') if not imagefile.startswith('.')]
@@ -53,6 +55,9 @@ class WardrobeApp:
         self.bottoms_frame.pack(fill=tk.BOTH, expand=tk.YES)
 
     def create_buttons(self):
+        create_outfit_button = tk.Button(self.bottoms_frame, text="CREATE OUTFIT", command=self.create_outfit)
+        create_outfit_button.pack(side=tk.LEFT)
+
         top_prev_button = tk.Button(self.tops_frame, text="Prev", command=self.get_prev_top)
         top_prev_button.pack(side=tk.LEFT)
 
@@ -64,6 +69,8 @@ class WardrobeApp:
 
         bottom_next_button = tk.Button(self.bottoms_frame, text="Next", command=self.get_next_bottom)
         bottom_next_button.pack(side=tk.RIGHT)
+
+
         
 
     def _get_next_item(self, current_item, category, increment = True):
@@ -128,6 +135,19 @@ class WardrobeApp:
         image_label.image = tk_photo
 
         return image_label
+
+    def create_outfit(self):
+        #random select top and bottom index
+        new_top_index = random.randint(0, len(self.top_images)-1)
+        new_bottom_index = random.randint(0, len(self.bottom_images)-1)
+
+        #add clothes onto screen
+        self.update_image(self.top_images[new_top_index], self.top_image_label)
+        self.update_image(self.bottom_images[new_bottom_index], self.bottom_image_label)
+
+        #add noise
+        #playsound(SOUND_EFFECT_FILE_PATH)
+
 
 
 root = tk.Tk()
