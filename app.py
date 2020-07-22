@@ -88,22 +88,13 @@ class WardrobeApp:
         if current_item in self.top_images:
             image_label = self.top_image_label
             self.top_image_path = next_image
+        else:
+            image_label = self.bottom_image_label
+            self.bottom_image_path = next_image
 
         #use update func to change image
         self.update_image(next_image, image_label)
     
-    def get_next_top(self):
-        self._get_next_item(self.top_image_path, self.top_images, increment=True)
-
-    def get_prev_top(self):
-        self._get_next_item(self.top_image_path, self.top_images, increment=False)
-
-    def get_next_bottom(self):
-        self._get_next_item(self.bottom_image_path, self.boRIGHT_images, increment=True)
-
-    def get_prev_bottom(self):
-        self._get_next_item(self.bottom_image_path, self.boRIGHT_images, increment=False)
-
     def update_image(self, new_image_path, image_label):
         #collect and change image into tk photo obj
         image_file = Image.open(new_image_path)
@@ -114,6 +105,19 @@ class WardrobeApp:
         image_label.configure(image=tk_photo)
 
         image_label.image = tk_photo
+
+    def get_next_top(self):
+        self._get_next_item(self.top_image_path, self.top_images, increment=True)
+
+    def get_prev_top(self):
+        self._get_next_item(self.top_image_path, self.top_images, increment=False)
+
+    def get_next_bottom(self):
+        self._get_next_item(self.bottom_image_path, self.bottom_images, increment=True)
+
+    def get_prev_bottom(self):
+        self._get_next_item(self.bottom_image_path, self.bottom_images, increment=False)
+
         
     def create_photo(self, image_path, frame):
         image_file = Image.open(image_path)
