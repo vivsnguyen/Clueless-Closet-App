@@ -70,7 +70,6 @@ class WardrobeApp:
         bottom_next_button = tk.Button(self.bottoms_frame, text="Next", command=self.get_next_bottom)
         bottom_next_button.pack(side=tk.RIGHT)
 
-
         
 
     def _get_next_item(self, current_item, category, increment = True):
